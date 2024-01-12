@@ -1,0 +1,19 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "LGPL-v3"
+
+[[mods]]
+modId = "rotcurse"
+version = "${version}"
+displayName = "RotCurse"
+authors = "TeamPotato"
+description = '''
+A Minecraft Mod.
+'''
+
+[[dependencies.rotcurse]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
