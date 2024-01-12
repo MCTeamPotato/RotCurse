@@ -22,7 +22,7 @@ loom {
     silentMojangMappingsLicense()
     forge {
         mixinConfigs = [
-            "rotcurse.mixins.json"
+            "zombiesyndrome.mixins.json"
         ]
     }
 }

@@ -1,8 +1,8 @@
-package com.teampotato.rotcurse;
+package com.teampotato.zombiesyndrome;
 
 import com.google.common.base.Suppliers;
-import com.teampotato.rotcurse.effects.Blessing;
-import com.teampotato.rotcurse.effects.Zombification;
+import com.teampotato.zombiesyndrome.effects.Blessing;
+import com.teampotato.zombiesyndrome.effects.Zombification;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,9 +34,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-@Mod(RotCurse.MOD_ID)
-public class RotCurse {
-    public static final String MOD_ID = "rotcurse";
+@Mod(ZombieSyndrome.MOD_ID)
+public class ZombieSyndrome {
+    public static final String MOD_ID = "zombiesyndrome";
     private static final DeferredRegister<MobEffect> EFFECT_REGISTER = DeferredRegister.create(ForgeRegistries.POTIONS, MOD_ID);
     private static final RegistryObject<Blessing> BLESSING = EFFECT_REGISTER.register("zombification", Blessing::new);
     private static final RegistryObject<Zombification> ZOMBIFICATION = EFFECT_REGISTER.register("zombification", Zombification::new);
@@ -48,7 +48,7 @@ public class RotCurse {
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
-        builder.push("RotCurse");
+        builder.push("ZombieSyndrome");
         CURE_ITEM = builder.define("TheItemUsedToCureTheEffect", "minecraft:golden_apple");
         MIN = builder.defineInRange("MinimalTicksOfZombificationEffectOnUndeadAttack", 180, 0, Integer.MAX_VALUE);
         MAX = builder.defineInRange("MaximumTicksOfZombificationEffectOnUndeadAttack", 360, 0, Integer.MAX_VALUE);
@@ -61,7 +61,7 @@ public class RotCurse {
 
     public static final Supplier<Set<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> ForgeRegistries.POTIONS.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
 
-    public RotCurse() {
+    public ZombieSyndrome() {
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext context = ModLoadingContext.get();

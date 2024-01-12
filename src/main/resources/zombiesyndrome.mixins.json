@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.teampotato.rotcurse.mixin",
+  "package": "com.teampotato.zombiesyndrome.mixin",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.8",
   "injectors": {

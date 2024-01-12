@@ -3,15 +3,15 @@ loaderVersion = "[36,)"
 license = "LGPL-v3"
 
 [[mods]]
-modId = "rotcurse"
+modId = "zombiesyndrome"
 version = "${version}"
-displayName = "RotCurse"
+displayName = "ZombieSyndrome"
 authors = "TeamPotato"
 description = '''
 A Minecraft Mod.
 '''
 
-[[dependencies.rotcurse]]
+[[dependencies.zombiesyndrome]]
 modId = "forge"
 mandatory = true
 versionRange = "[36,)"
