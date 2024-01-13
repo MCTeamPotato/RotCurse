@@ -1,5 +1,7 @@
 package cn.teampancake.zombiesyndrome.effect;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -46,6 +48,12 @@ public class Zombification extends MobEffect {
 
         public @Nullable Entity getEntity() {
             return this.source;
+        }
+
+        public Component getLocalizedDeathMessage(LivingEntity livingEntity) {
+            Entity source = this.getEntity();
+            if (source == null) return new TranslatableComponent("death.attack.zombification", livingEntity.getDisplayName());
+            return new TranslatableComponent("death.attack.zombification.has_source", livingEntity.getDisplayName(), source.getDisplayName());
         }
     }
 }

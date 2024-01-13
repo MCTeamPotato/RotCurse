@@ -11,8 +11,8 @@ public class ZombificationConfig {
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("ZombificationProperties");
-        MIN = builder.defineInRange("MinimalTicksDurationOfThisEffectOnZombieAttack", 180, 0, Integer.MAX_VALUE);
-        MAX = builder.defineInRange("MaximumTicksDurationOfThisEffectOnZombieAttack", 360, 0, Integer.MAX_VALUE);
+        MIN = builder.defineInRange("MinimalTicksDurationOfThisEffectOnZombieAttack", 1800, 0, Integer.MAX_VALUE);
+        MAX = builder.defineInRange("MaximumTicksDurationOfThisEffectOnZombieAttack", 3600, 0, Integer.MAX_VALUE);
         VISIBLE = builder.define("WhetherThisEffectWillRenderAmbientParticles", true);
         SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRendered", true);
         builder.pop();

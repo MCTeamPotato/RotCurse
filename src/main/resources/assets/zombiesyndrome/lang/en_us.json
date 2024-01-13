@@ -2,5 +2,7 @@
   "effect.zombiesyndrome.desinfection": "Desinfection",
   "effect.zombiesyndrome.desinfection.description": "Prevent players from being infected on zombies' attacks.",
   "effect.zombiesyndrome.zombification": "Zombification",
-  "effect.zombiesyndrome.zombification.description": "Player will die and become a zombie on this effect's expiry."
+  "effect.zombiesyndrome.zombification.description": "Player will die and become a zombie on this effect's expiry.",
+  "death.attack.zombification": "%s is infected and become a zombie.",
+  "death.attack.zombification.has_source": "%s is infected by %s and become one of them."
 }

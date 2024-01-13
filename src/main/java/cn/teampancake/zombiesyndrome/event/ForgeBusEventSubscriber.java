@@ -70,7 +70,7 @@ public class ForgeBusEventSubscriber {
         LivingEntity entity = event.getEntityLiving();
         if (entity.level.isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
-        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && ZSEffects.INFECTION_SOURCES.get().contains(source.getType())))) {
+        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && ZSEffects.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
             entity.addEffect(new ZombificationInstance(source));
         }
     }
@@ -81,9 +81,7 @@ public class ForgeBusEventSubscriber {
         ResourceLocation item = event.getItem().getItem().getRegistryName();
         LivingEntity entity = event.getEntityLiving();
         if (item == null || !Objects.equals(item.toString(), MainConfig.CURE_ITEM.get()) || entity.level.isClientSide) return;
-        if (entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
-            entity.removeEffect(ZSEffects.ZOMBIFICATION.get());
-            entity.addEffect(new DesinfectionInstance());
-        }
+        if (entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) entity.removeEffect(ZSEffects.ZOMBIFICATION.get());
+        entity.addEffect(new DesinfectionInstance());
     }
 }

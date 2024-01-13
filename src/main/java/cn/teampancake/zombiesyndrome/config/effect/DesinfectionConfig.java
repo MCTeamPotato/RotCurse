@@ -10,7 +10,7 @@ public class DesinfectionConfig {
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("DesinfectionProperties");
-        DURATION = builder.defineInRange("TicksDurationOfDesinfectionEffect", 600, 0, Integer.MAX_VALUE);
+        DURATION = builder.defineInRange("TicksDurationOfDesinfectionEffect", 6000, 0, Integer.MAX_VALUE);
         VISIBLE = builder.define("WhetherThisEffectWillRenderAmbientParticles", true);
         SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRendered", true);
         builder.pop();

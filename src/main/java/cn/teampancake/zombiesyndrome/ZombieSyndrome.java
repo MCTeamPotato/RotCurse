@@ -20,7 +20,7 @@ public class ZombieSyndrome {
     public ZombieSyndrome() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         final ModLoadingContext context = ModLoadingContext.get();
-        ModConfig.Type common = ModConfig.Type.COMMON;
+        final ModConfig.Type common = ModConfig.Type.COMMON;
 
         context.registerConfig(common, MainConfig.MAIN_CONFIG, MOD_ID + "/main.toml");
         context.registerConfig(common, DesinfectionConfig.DESINFECTION_CONFIG, MOD_ID + "/desinfection.toml");
