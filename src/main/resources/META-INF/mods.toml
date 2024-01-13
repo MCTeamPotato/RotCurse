@@ -6,7 +6,7 @@ license = "LGPL-v3"
 modId = "zombiesyndrome"
 version = "${version}"
 displayName = "ZombieSyndrome"
-authors = "TeamPotato"
+authors = "TeamPancake"
 description = '''
 A Minecraft Mod.
 '''

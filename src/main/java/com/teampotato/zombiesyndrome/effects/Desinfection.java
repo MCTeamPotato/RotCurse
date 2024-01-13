@@ -7,8 +7,8 @@ import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
 
-public class Blessing extends MobEffect {
-    public Blessing() {
+public class Desinfection extends MobEffect {
+    public Desinfection() {
         super(MobEffectCategory.BENEFICIAL, 191981);
     }
 
