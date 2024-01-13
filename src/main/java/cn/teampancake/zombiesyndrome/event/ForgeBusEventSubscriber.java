@@ -44,9 +44,11 @@ public class ForgeBusEventSubscriber {
                 zombie.setDropChance(slot, 0.0F);
             }
         }
+
         UUID uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
         while (serverLevel.getEntity(uuid) != null) uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
         zombie.setUUID(uuid);
+
         zombie.setHealth(zombie.getMaxHealth());
         return zombie;
     }
@@ -59,8 +61,8 @@ public class ForgeBusEventSubscriber {
         Level level = entity.level;
         if (level instanceof ServerLevel && effectInstance instanceof ZombificationInstance) {
             ServerLevel serverLevel = (ServerLevel) level;
-            entity.hurt(new Zombification.ZombificationDamageSource(((ZombificationInstance)effectInstance).getSource()), Float.MAX_VALUE);
             serverLevel.addFreshEntity(customZombie(entity, serverLevel));
+            entity.hurt(new Zombification.ZombificationDamageSource(((ZombificationInstance)effectInstance).getSource()), Float.MAX_VALUE);
         }
     }
 
@@ -70,7 +72,7 @@ public class ForgeBusEventSubscriber {
         LivingEntity entity = event.getEntityLiving();
         if (entity.level.isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
-        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && ZSEffects.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
+        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
             entity.addEffect(new ZombificationInstance(source));
         }
     }

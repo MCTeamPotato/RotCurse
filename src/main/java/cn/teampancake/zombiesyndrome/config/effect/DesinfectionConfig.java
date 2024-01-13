@@ -12,7 +12,7 @@ public class DesinfectionConfig {
         builder.push("DesinfectionProperties");
         DURATION = builder.defineInRange("TicksDurationOfDesinfectionEffect", 6000, 0, Integer.MAX_VALUE);
         VISIBLE = builder.define("WhetherThisEffectWillRenderAmbientParticles", true);
-        SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRendered", true);
+        SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRenderedInGuis", true);
         builder.pop();
         DESINFECTION_CONFIG = builder.build();
     }

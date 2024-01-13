@@ -7,6 +7,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -27,9 +29,9 @@ public class Zombification extends MobEffect {
         return false;
     }
 
-    public static class ZombificationDamageSource extends DamageSource {
-        private final Entity source;
-        public ZombificationDamageSource(Entity source) {
+    public static final class ZombificationDamageSource extends DamageSource {
+        private final @Nullable Entity source;
+        public ZombificationDamageSource(@Nullable Entity source) {
             super("zombification");
             this.source = source;
         }
@@ -50,10 +52,11 @@ public class Zombification extends MobEffect {
             return this.source;
         }
 
-        public Component getLocalizedDeathMessage(LivingEntity livingEntity) {
+        @Contract("_ -> new")
+        public @NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity dead) {
             Entity source = this.getEntity();
-            if (source == null) return new TranslatableComponent("death.attack.zombification", livingEntity.getDisplayName());
-            return new TranslatableComponent("death.attack.zombification.has_source", livingEntity.getDisplayName(), source.getDisplayName());
+            if (source == null) return new TranslatableComponent("death.attack.zombification", dead.getDisplayName());
+            return new TranslatableComponent("death.attack.zombification.has_source", dead.getDisplayName(), source.getDisplayName());
         }
     }
 }

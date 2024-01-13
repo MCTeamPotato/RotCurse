@@ -14,7 +14,7 @@ public class ZombificationConfig {
         MIN = builder.defineInRange("MinimalTicksDurationOfThisEffectOnZombieAttack", 1800, 0, Integer.MAX_VALUE);
         MAX = builder.defineInRange("MaximumTicksDurationOfThisEffectOnZombieAttack", 3600, 0, Integer.MAX_VALUE);
         VISIBLE = builder.define("WhetherThisEffectWillRenderAmbientParticles", true);
-        SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRendered", true);
+        SHOW_ICON = builder.define("WhetherTheEffectIconWillBeRenderedInGuis", true);
         builder.pop();
         ZOMBIFICATION_CONFIG = builder.build();
     }

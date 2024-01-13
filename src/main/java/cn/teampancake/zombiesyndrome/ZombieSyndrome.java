@@ -16,7 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ZombieSyndrome {
     public static final String MOD_ID = "zombiesyndrome";
 
-
     public ZombieSyndrome() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         final ModLoadingContext context = ModLoadingContext.get();
