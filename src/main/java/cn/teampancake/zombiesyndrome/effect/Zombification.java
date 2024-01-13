@@ -1,4 +1,4 @@
-package cn.teampancake.zombiesyndrome.effects;
+package cn.teampancake.zombiesyndrome.effect;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
