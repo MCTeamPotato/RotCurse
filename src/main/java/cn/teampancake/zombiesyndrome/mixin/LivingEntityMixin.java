@@ -1,6 +1,6 @@
-package com.teampotato.zombiesyndrome.mixin;
+package cn.teampancake.zombiesyndrome.mixin;
 
-import com.teampotato.zombiesyndrome.ZombieSyndrome;
+import cn.teampancake.zombiesyndrome.ZombieSyndrome;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

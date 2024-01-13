@@ -1,8 +1,8 @@
-package com.teampotato.zombiesyndrome;
+package cn.teampancake.zombiesyndrome;
 
+import cn.teampancake.zombiesyndrome.effects.Desinfection;
+import cn.teampancake.zombiesyndrome.effects.Zombification;
 import com.google.common.base.Suppliers;
-import com.teampotato.zombiesyndrome.effects.Desinfection;
-import com.teampotato.zombiesyndrome.effects.Zombification;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
