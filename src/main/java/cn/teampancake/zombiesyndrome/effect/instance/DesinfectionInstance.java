@@ -3,7 +3,7 @@ package cn.teampancake.zombiesyndrome.effect.instance;
 import cn.teampancake.zombiesyndrome.ZombieSyndrome;
 import net.minecraft.world.effect.MobEffectInstance;
 
-import static cn.teampancake.zombiesyndrome.config.DesinfectionConfig.*;
+import static cn.teampancake.zombiesyndrome.config.effect.DesinfectionConfig.*;
 
 public class DesinfectionInstance extends MobEffectInstance {
     public DesinfectionInstance() {

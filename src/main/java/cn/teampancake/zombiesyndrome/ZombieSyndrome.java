@@ -1,8 +1,8 @@
 package cn.teampancake.zombiesyndrome;
 
-import cn.teampancake.zombiesyndrome.config.DesinfectionConfig;
+import cn.teampancake.zombiesyndrome.config.effect.DesinfectionConfig;
 import cn.teampancake.zombiesyndrome.config.MainConfig;
-import cn.teampancake.zombiesyndrome.config.ZombificationConfig;
+import cn.teampancake.zombiesyndrome.config.effect.ZombificationConfig;
 import cn.teampancake.zombiesyndrome.effect.Desinfection;
 import cn.teampancake.zombiesyndrome.effect.Zombification;
 import cn.teampancake.zombiesyndrome.effect.instance.DesinfectionInstance;
@@ -68,7 +68,7 @@ public class ZombieSyndrome {
             if (entity.level.isClientSide || entity.hasEffect(DESINFECTION.get())) return;
             Entity source = event.getSource().getDirectEntity();
             if (entity instanceof Player && (source instanceof Zombie || (source != null && INFECTION_SOURCES.get().contains(source.getType())))) {
-                entity.addEffect(new ZombificationInstance());
+                entity.addEffect(new ZombificationInstance(source));
             }
         });
 
@@ -77,9 +77,9 @@ public class ZombieSyndrome {
             MobEffectInstance effectInstance = event.getPotionEffect();
             LivingEntity entity = event.getEntityLiving();
             Level level = entity.level;
-            if (level instanceof ServerLevel && effectInstance != null && effectInstance.getEffect().equals(ZOMBIFICATION.get())) {
+            if (level instanceof ServerLevel && effectInstance instanceof ZombificationInstance) {
                 ServerLevel serverLevel = (ServerLevel) level;
-                entity.hurt(Zombification.DAMAGE_SOURCE, Float.MAX_VALUE);
+                entity.hurt(new Zombification.ZombificationDamageSource(((ZombificationInstance)effectInstance).getSource()), Float.MAX_VALUE);
                 serverLevel.addFreshEntity(customZombie(new Zombie(serverLevel), entity, serverLevel));
             }
         });

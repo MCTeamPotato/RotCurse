@@ -1,4 +1,4 @@
-package cn.teampancake.zombiesyndrome.config;
+package cn.teampancake.zombiesyndrome.config.effect;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
