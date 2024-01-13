@@ -15,7 +15,7 @@ public class Desinfection extends MobEffect {
 
     public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {}
 
-    public void applyInstantenousEffect(@Nullable Entity source, @Nullable Entity indirectSource, LivingEntity livingEntity, int amplifier, double health) {}
+    public void applyInstantenousEffect(@Nullable Entity source, @Nullable Entity indirectSource, @NotNull LivingEntity livingEntity, int amplifier, double health) {}
 
     public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;

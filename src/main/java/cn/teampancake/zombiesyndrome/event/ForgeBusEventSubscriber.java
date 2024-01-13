@@ -19,14 +19,14 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = ZombieSyndrome.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -47,8 +47,8 @@ public class ForgeBusEventSubscriber {
             }
         }
 
-        UUID uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
-        while (serverLevel.getEntity(uuid) != null) uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
+        UUID uuid = Mth.createInsecureUUID();
+        while (serverLevel.getEntity(uuid) != null) uuid = Mth.createInsecureUUID();
         zombie.setUUID(uuid);
 
         zombie.setHealth(zombie.getMaxHealth());
@@ -56,10 +56,10 @@ public class ForgeBusEventSubscriber {
     }
 
     @SubscribeEvent
-    public static void onPotionExpiry(PotionEvent.PotionExpiryEvent event) {
+    public static void onPotionExpiry(MobEffectEvent.Expired event) {
         if (event.isCanceled()) return;
-        MobEffectInstance effectInstance = event.getPotionEffect();
-        LivingEntity entity = event.getEntityLiving();
+        MobEffectInstance effectInstance = event.getEffectInstance();
+        LivingEntity entity = event.getEntity();
         Level level = entity.level;
         if (level instanceof ServerLevel && effectInstance instanceof ZombificationInstance) {
             ServerLevel serverLevel = (ServerLevel) level;
@@ -71,7 +71,7 @@ public class ForgeBusEventSubscriber {
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
         if (event.isCanceled() || ZombieSyndrome.nextInt(0, 101) < MainConfig.POSSIBILITY.get()) return;
-        LivingEntity entity = event.getEntityLiving();
+        LivingEntity entity = event.getEntity();
         if (entity.level.isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
         if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
@@ -82,8 +82,8 @@ public class ForgeBusEventSubscriber {
     @SubscribeEvent
     public static void onLivingUseItemFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.isCanceled()) return;
-        ResourceLocation item = event.getItem().getItem().getRegistryName();
-        LivingEntity entity = event.getEntityLiving();
+        ResourceLocation item = ForgeRegistries.ITEMS.getKey(event.getItem().getItem());
+        LivingEntity entity = event.getEntity();
         if (item == null || !Objects.equals(item.toString(), MainConfig.CURE_ITEM.get()) || entity.level.isClientSide) return;
         if (entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) entity.removeEffect(ZSEffects.ZOMBIFICATION.get());
         entity.addEffect(new DesinfectionInstance());

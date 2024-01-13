@@ -12,7 +12,7 @@ import static cn.teampancake.zombiesyndrome.config.effect.ZombificationConfig.*;
 public class ZombificationInstance extends MobEffectInstance {
     private final @Nullable Entity source;
     public ZombificationInstance(@Nullable Entity source) {
-        super(ZSEffects.ZOMBIFICATION.get(), ZombieSyndrome.nextInt(MIN.get(), MAX.get() + 1), 0, false, VISIBLE.get(), SHOW_ICON.get(), null);
+        super(ZSEffects.ZOMBIFICATION.get(), ZombieSyndrome.nextInt(MIN.get(), MAX.get() + 1), 0, false, VISIBLE.get(), SHOW_ICON.get());
         this.source = source;
     }
 

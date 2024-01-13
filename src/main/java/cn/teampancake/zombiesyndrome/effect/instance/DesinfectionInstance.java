@@ -7,6 +7,6 @@ import static cn.teampancake.zombiesyndrome.config.effect.DesinfectionConfig.*;
 
 public class DesinfectionInstance extends MobEffectInstance {
     public DesinfectionInstance() {
-        super(ZSEffects.DESINFECTION.get(), DURATION.get(), 0, false, VISIBLE.get(), SHOW_ICON.get(), null);
+        super(ZSEffects.DESINFECTION.get(), DURATION.get(), 0, false, VISIBLE.get(), SHOW_ICON.get());
     }
 }
