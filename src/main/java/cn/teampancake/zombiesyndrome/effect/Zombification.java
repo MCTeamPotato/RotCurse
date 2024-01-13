@@ -17,7 +17,7 @@ public class Zombification extends MobEffect {
         super(MobEffectCategory.HARMFUL, 114514);
     }
 
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {}
+    public void applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {}
 
     public void applyInstantenousEffect(@Nullable Entity source, @Nullable Entity indirectSource, LivingEntity livingEntity, int amplifier, double health) {}
 

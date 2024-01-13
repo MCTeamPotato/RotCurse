@@ -113,7 +113,7 @@ tasks.register("publishCurseForge", TaskPublishCurseForge) {
     mainFile.changelog = currentChangeLog
     mainFile.changelogType = "markdown"
     mainFile.addModLoader("Forge")
-    mainFile.addJavaVersion("Java 17", "Java 8")
+    mainFile.addJavaVersion("Java 17")
     mainFile.addGameVersion(supportedGameVersions)
 
     UploadArtifact sourcesFile = mainFile.withAdditionalFile(sourcesJar)
