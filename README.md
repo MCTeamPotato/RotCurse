@@ -9,7 +9,6 @@ Generally a simple zombie infection system.
 
 ## Configuration
 ### Main
-- Zombification effect's minimum & maximum duration on zombie-like entities attack.
 - The duration of weakness and slowness effects on zombification curation.
 - The possibility percentage of zombie infection.
 - Whether the corresponding zombie `copies your armors` / `is persistent` / `can pick up items from ground` on your zombification death.
