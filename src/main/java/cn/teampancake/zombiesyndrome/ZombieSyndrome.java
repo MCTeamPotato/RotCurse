@@ -79,7 +79,7 @@ public class ZombieSyndrome {
             Level level = entity.level;
             if (level instanceof ServerLevel && effectInstance != null && effectInstance.getEffect().equals(ZOMBIFICATION.get())) {
                 ServerLevel serverLevel = (ServerLevel) level;
-                entity.hurt(Zombification.getDamageSource(), Float.MAX_VALUE);
+                entity.hurt(Zombification.DAMAGE_SOURCE, Float.MAX_VALUE);
                 serverLevel.addFreshEntity(customZombie(new Zombie(serverLevel), entity, serverLevel));
             }
         });

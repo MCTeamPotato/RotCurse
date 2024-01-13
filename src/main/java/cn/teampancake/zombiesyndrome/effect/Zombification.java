@@ -13,11 +13,7 @@ public class Zombification extends MobEffect {
         super(MobEffectCategory.HARMFUL, 114514);
     }
 
-    private static final DamageSource DAMAGE_SOURCE = new DamageSource("zombification").bypassArmor().setMagic();
-
-    public static DamageSource getDamageSource() {
-        return DAMAGE_SOURCE;
-    }
+    public static final DamageSource DAMAGE_SOURCE = new DamageSource("zombification").bypassArmor().setMagic();
 
     public void applyEffectTick(LivingEntity livingEntity, int amplifier) {}
 
