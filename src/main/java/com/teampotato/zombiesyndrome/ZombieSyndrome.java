@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class ZombieSyndrome {
     public static final String MOD_ID = "zombiesyndrome";
     private static final DeferredRegister<MobEffect> EFFECT_REGISTER = DeferredRegister.create(ForgeRegistries.POTIONS, MOD_ID);
-    private static final RegistryObject<Desinfection> DESINFECTION = EFFECT_REGISTER.register("zombification", Desinfection::new);
+    private static final RegistryObject<Desinfection> DESINFECTION = EFFECT_REGISTER.register("desinfection", Desinfection::new);
     private static final RegistryObject<Zombification> ZOMBIFICATION = EFFECT_REGISTER.register("zombification", Zombification::new);
 
     private static final ForgeConfigSpec CONFIG_SPEC;
@@ -54,8 +54,8 @@ public class ZombieSyndrome {
         MAX = builder.defineInRange("MaximumTicksOfZombificationEffectOnUndeadAttack", 360, 0, Integer.MAX_VALUE);
         DURATION = builder.defineInRange("TicksDurationOfDesinfectionEffect", 600, 0, Integer.MAX_VALUE);
         POSSIBILITY = builder.defineInRange("InfectedPossibilityPercentage", 60, 0, 100);
-        UNREMOVEABLE_EFFECTS_LIST = builder.comment("If you write registry names of effects down here, it will not be removed like milk-cure").defineList("EffectsThatWillNotBeRemovedByMilkCure", new ArrayList<>(), o -> o instanceof String);
-        INFECTION_SOURCES_LIST = builder.comment("Some mods may not implement their zombie-like entities well which cause the infection invalid on their 'zombies'. But you can add their registry names here to mark them as infection source").defineList("InfectionSourcesEntitiesList", new ArrayList<>(), o -> o instanceof String);
+        UNREMOVEABLE_EFFECTS_LIST = builder.comment("If you write registry names of effects down here, it will not be removed by milk-like cure").defineList("EffectsThatWillNotBeRemovedByMilkCure", new ArrayList<>(), o -> o instanceof String);
+        INFECTION_SOURCES_LIST = builder.comment("Some mods may not implement their zombie-like entities properly which cause the infection invalid on their 'zombies'. But you can add their registry names here to mark them as infection source").defineList("InfectionSourcesEntitiesList", new ArrayList<>(), o -> o instanceof String);
         builder.pop();
         CONFIG_SPEC = builder.build();
     }
