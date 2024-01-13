@@ -1,4 +1,6 @@
 {
   "effect.zombiesyndrome.desinfection": "Desinfection",
-  "effect.zombiesyndrome.zombification": "Zombification"
+  "effect.zombiesyndrome.desinfection.description": "Prevent players from being infected on zombies' attacks.",
+  "effect.zombiesyndrome.zombification": "Zombification",
+  "effect.zombiesyndrome.zombification.description": "Player will die and become a zombie on this effect's expiry."
 }

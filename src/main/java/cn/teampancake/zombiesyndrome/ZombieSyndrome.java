@@ -9,13 +9,15 @@ import cn.teampancake.zombiesyndrome.effect.instance.DesinfectionInstance;
 import cn.teampancake.zombiesyndrome.effect.instance.ZombificationInstance;
 import com.google.common.base.Suppliers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -30,9 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -49,6 +49,8 @@ public class ZombieSyndrome {
      **/
     public static final Supplier<Set<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> MainConfig.UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> ForgeRegistries.POTIONS.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
     public static final Supplier<Set<EntityType<?>>> INFECTION_SOURCES = Suppliers.memoize(() -> MainConfig.INFECTION_SOURCES_LIST.get().stream().map(string -> ForgeRegistries.ENTITIES.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
+
+    private static final EquipmentSlot[] EQUIPMENT_SLOTS = EquipmentSlot.values();
 
     public ZombieSyndrome() {
         final IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -74,9 +76,11 @@ public class ZombieSyndrome {
             if (event.isCanceled()) return;
             MobEffectInstance effectInstance = event.getPotionEffect();
             LivingEntity entity = event.getEntityLiving();
-            if (entity.level.isClientSide) return;
-            if (effectInstance != null && effectInstance.getEffect().equals(ZOMBIFICATION.get())) {
-                event.getEntityLiving().hurt(Zombification.getDamageSource(), Float.MAX_VALUE);
+            Level level = entity.level;
+            if (level instanceof ServerLevel && effectInstance != null && effectInstance.getEffect().equals(ZOMBIFICATION.get())) {
+                ServerLevel serverLevel = (ServerLevel) level;
+                entity.hurt(Zombification.getDamageSource(), Float.MAX_VALUE);
+                serverLevel.addFreshEntity(customZombie(new Zombie(serverLevel), entity, serverLevel));
             }
         });
 
@@ -94,5 +98,23 @@ public class ZombieSyndrome {
 
     public static int nextInt(int origin, int bound) {
         return ThreadLocalRandom.current().nextInt(origin, bound);
+    }
+
+    private static Zombie customZombie(Zombie zombie, LivingEntity entity, ServerLevel serverLevel) {
+        zombie.setPos(entity.getX(), entity.getY(), entity.getZ());
+        zombie.setCanPickUpLoot(MainConfig.PICK_UP_LOOT.get());
+        if (MainConfig.PERSISTENCE.get()) zombie.setPersistenceRequired();
+        Optional.ofNullable(zombie.getAttribute(Attributes.MAX_HEALTH)).ifPresent(attributeInstance -> attributeInstance.setBaseValue(entity.getMaxHealth()));
+        if (MainConfig.COPY_ARMORS.get()) {
+            for (EquipmentSlot slot : EQUIPMENT_SLOTS) {
+                zombie.setItemSlot(slot, entity.getItemBySlot(slot));
+                zombie.setDropChance(slot, 0.0F);
+            }
+        }
+        UUID uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
+        while (serverLevel.getEntity(uuid) != null) uuid = Mth.createInsecureUUID(ThreadLocalRandom.current());
+        zombie.setUUID(uuid);
+        zombie.setHealth(zombie.getMaxHealth());
+        return zombie;
     }
 }
