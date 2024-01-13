@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,6 +39,7 @@ public class ForgeBusEventSubscriber {
         zombie.setCanPickUpLoot(MainConfig.PICK_UP_LOOT.get());
         if (MainConfig.PERSISTENCE.get()) zombie.setPersistenceRequired();
         Optional.ofNullable(zombie.getAttribute(Attributes.MAX_HEALTH)).ifPresent(attributeInstance -> attributeInstance.setBaseValue(entity.getMaxHealth()));
+
         if (MainConfig.COPY_ARMORS.get()) {
             for (EquipmentSlot slot : EQUIPMENT_SLOTS) {
                 zombie.setItemSlot(slot, entity.getItemBySlot(slot));
@@ -85,5 +87,7 @@ public class ForgeBusEventSubscriber {
         if (item == null || !Objects.equals(item.toString(), MainConfig.CURE_ITEM.get()) || entity.level.isClientSide) return;
         if (entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) entity.removeEffect(ZSEffects.ZOMBIFICATION.get());
         entity.addEffect(new DesinfectionInstance());
+        entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, MainConfig.SLOWNESS_DURATION.get()));
+        entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, MainConfig.WEAKNESS_DURATION.get()));
     }
 }
