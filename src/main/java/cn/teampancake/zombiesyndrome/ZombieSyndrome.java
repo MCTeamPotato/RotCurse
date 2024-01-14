@@ -3,38 +3,31 @@ package cn.teampancake.zombiesyndrome;
 import cn.teampancake.zombiesyndrome.config.MainConfig;
 import cn.teampancake.zombiesyndrome.config.effect.DesinfectionConfig;
 import cn.teampancake.zombiesyndrome.config.effect.ZombificationConfig;
+import cn.teampancake.zombiesyndrome.effect.Desinfection;
+import cn.teampancake.zombiesyndrome.effect.Zombification;
 import cn.teampancake.zombiesyndrome.registry.ZSEffects;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@Mod(ZombieSyndrome.MOD_ID)
-public class ZombieSyndrome {
+public class ZombieSyndrome implements ModInitializer {
     public static final String MOD_ID = "zombiesyndrome";
-
-    public static final ResourceKey<DamageType> DAMAGE_TYPE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(ZombieSyndrome.MOD_ID, "zombification_damage_type"));
-
-    public ZombieSyndrome() {
-        final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        final ModLoadingContext context = ModLoadingContext.get();
-        final ModConfig.Type common = ModConfig.Type.COMMON;
-
-        context.registerConfig(common, MainConfig.MAIN_CONFIG, MOD_ID + "/main.toml");
-        context.registerConfig(common, DesinfectionConfig.DESINFECTION_CONFIG, MOD_ID + "/desinfection.toml");
-        context.registerConfig(common, ZombificationConfig.ZOMBIFICATION_CONFIG, MOD_ID + "/zombification.toml");
-
-        ZSEffects.EFFECT_REGISTER.register(modBus);
-    }
 
     public static int nextInt(int origin, int bound) {
         return ThreadLocalRandom.current().nextInt(origin, bound);
+    }
+
+    @Override
+    public void onInitialize() {
+        final ModConfig.Type common = ModConfig.Type.COMMON;
+        ForgeConfigRegistry.INSTANCE.register(MOD_ID, common, MainConfig.MAIN_CONFIG, MOD_ID + "/main.toml");
+        ForgeConfigRegistry.INSTANCE.register(MOD_ID, common, DesinfectionConfig.DESINFECTION_CONFIG, MOD_ID + "/desinfection.toml");
+        ForgeConfigRegistry.INSTANCE.register(MOD_ID, common, ZombificationConfig.ZOMBIFICATION_CONFIG, MOD_ID + "/zombification.toml");
+        ZSEffects.ZOMBIFICATION = Registry.register(BuiltInRegistries.MOB_EFFECT, ZombieSyndrome.MOD_ID + ":zombification", new Zombification());
+        ZSEffects.DESINFECTION = Registry.register(BuiltInRegistries.MOB_EFFECT, ZombieSyndrome.MOD_ID + ":desinfection", new Desinfection());
     }
 }

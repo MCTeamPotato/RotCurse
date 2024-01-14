@@ -3,11 +3,11 @@ package cn.teampancake.zombiesyndrome.config;
 import cn.teampancake.zombiesyndrome.ZombieSyndrome;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class MainConfig {
     /**
      * {@link List#contains(Object)} is expensive for iteration, so we transform it to {@link java.util.HashSet} instead
      **/
-    public static final Supplier<Set<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
-    public static final Supplier<Set<EntityType<?>>> INFECTION_SOURCES = Suppliers.memoize(() -> INFECTION_SOURCES_LIST.get().stream().map(string -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
+    public static final Supplier<Set<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(string))).collect(Collectors.toSet()));
+    public static final Supplier<Set<EntityType<?>>> INFECTION_SOURCES = Suppliers.memoize(() -> INFECTION_SOURCES_LIST.get().stream().map(string -> BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(string))).collect(Collectors.toSet()));
     public static final Supplier<Set<ResourceLocation>> INFECTABLE_ENTITIES = Suppliers.memoize(() -> INFECTABLE_ENTITIES_LIST.get().stream().map(ResourceLocation::new).collect(Collectors.toSet()));
 }

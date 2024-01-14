@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "zombiesyndrome",
+	"version": "${version}",
+	"name": "zombieSyndrome",
+	"description": "A Minecraft Zombification Mod",
+	"authors": [
+		"TeamPancake"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "LGPL-v3",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"cn.teampancake.zombiesyndrome.ZombieSyndrome"
+		]
+	},
+	"mixins": [
+		"zombiesyndrome.mixins.json"
+	],
+	"depends": {
+		"minecraft": "*"
+	}
+}
