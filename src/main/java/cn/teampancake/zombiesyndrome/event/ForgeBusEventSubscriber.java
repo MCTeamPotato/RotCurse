@@ -15,7 +15,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -74,7 +73,7 @@ public class ForgeBusEventSubscriber {
         LivingEntity entity = event.getEntity();
         if (entity.level().isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
-        if (entity instanceof Player && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
+        if (MainConfig.INFECTABLE_ENTITIES.get().contains(ForgeRegistries.ENTITY_TYPES.getKey(entity.getType())) && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
             entity.addEffect(new ZombificationInstance(source));
         }
     }
