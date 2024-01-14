@@ -1,8 +1,0 @@
-{
-  "effect.zombiesyndrome.desinfection": "无菌",
-  "effect.zombiesyndrome.desinfection.description": "防止玩家在被僵尸攻击时受到感染。",
-  "effect.zombiesyndrome.zombification": "尸变",
-  "effect.zombiesyndrome.zombification.description": "在此药水倒计时结束时，玩家将会死亡变成僵尸。",
-  "death.attack.zombification": "%s 被感染了，变成了僵尸。",
-  "death.attack.zombification.has_source": "%s 被 %s 感染了，变成了它们的一员。"
-}
