@@ -2,7 +2,6 @@ package cn.teampancake.zombiesyndrome.event;
 
 import cn.teampancake.zombiesyndrome.ZombieSyndrome;
 import cn.teampancake.zombiesyndrome.config.MainConfig;
-import cn.teampancake.zombiesyndrome.effect.Zombification;
 import cn.teampancake.zombiesyndrome.effect.instance.DesinfectionInstance;
 import cn.teampancake.zombiesyndrome.effect.instance.ZombificationInstance;
 import cn.teampancake.zombiesyndrome.registry.ZSEffects;
@@ -16,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "resource"})
 @Mod.EventBusSubscriber(modid = ZombieSyndrome.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeBusEventSubscriber {
     private static final EquipmentSlot[] EQUIPMENT_SLOTS = EquipmentSlot.values();
@@ -60,11 +60,11 @@ public class ForgeBusEventSubscriber {
         if (event.isCanceled()) return;
         MobEffectInstance effectInstance = event.getEffectInstance();
         LivingEntity entity = event.getEntity();
-        Level level = entity.level;
+        Level level = entity.level();
         if (level instanceof ServerLevel && effectInstance instanceof ZombificationInstance) {
             ServerLevel serverLevel = (ServerLevel) level;
             serverLevel.addFreshEntity(customZombie(entity, serverLevel));
-            entity.hurt(new Zombification.ZombificationDamageSource(((ZombificationInstance)effectInstance).getSource()), Float.MAX_VALUE);
+            entity.hurt(serverLevel.damageSources().magic(), Float.MAX_VALUE);
         }
     }
 
@@ -72,9 +72,9 @@ public class ForgeBusEventSubscriber {
     public static void onLivingAttack(LivingAttackEvent event) {
         if (event.isCanceled() || ZombieSyndrome.nextInt(0, 101) < MainConfig.POSSIBILITY.get()) return;
         LivingEntity entity = event.getEntity();
-        if (entity.level.isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
+        if (entity.level().isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
-        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
+        if (entity instanceof Player && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
             entity.addEffect(new ZombificationInstance(source));
         }
     }
@@ -84,7 +84,7 @@ public class ForgeBusEventSubscriber {
         if (event.isCanceled()) return;
         ResourceLocation item = ForgeRegistries.ITEMS.getKey(event.getItem().getItem());
         LivingEntity entity = event.getEntity();
-        if (item == null || !Objects.equals(item.toString(), MainConfig.CURE_ITEM.get()) || entity.level.isClientSide) return;
+        if (item == null || !Objects.equals(item.toString(), MainConfig.CURE_ITEM.get()) || entity.level().isClientSide) return;
         if (entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) entity.removeEffect(ZSEffects.ZOMBIFICATION.get());
         entity.addEffect(new DesinfectionInstance());
         entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, MainConfig.SLOWNESS_DURATION.get()));

@@ -4,6 +4,10 @@ import cn.teampancake.zombiesyndrome.config.MainConfig;
 import cn.teampancake.zombiesyndrome.config.effect.DesinfectionConfig;
 import cn.teampancake.zombiesyndrome.config.effect.ZombificationConfig;
 import cn.teampancake.zombiesyndrome.registry.ZSEffects;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Mod(ZombieSyndrome.MOD_ID)
 public class ZombieSyndrome {
     public static final String MOD_ID = "zombiesyndrome";
+
+    public static final ResourceKey<DamageType> DAMAGE_TYPE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(ZombieSyndrome.MOD_ID, "zombification_damage_type"));
 
     public ZombieSyndrome() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
