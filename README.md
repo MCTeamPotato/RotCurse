@@ -15,6 +15,7 @@ Generally a simple zombie infection system.
 - The curative item to prevent you from infection (by default golden apples, recommended for modpackers changing it to a customized KubeJS/CraftTweaker item)
 - Unremovable effects by milk-like curation, default entry zombification but accepts any effects' registry names
 - Infection sources list for mods who don't implement their zombie-like entities properly and infection cannot happen from them.
+- Entities that are infectable by zombie-like entities, by default `"minecraft:player"`.
 ### Effects
 - Whether to render Desinfection & Zombification's icon/ambient particles.
 - Desinfection's duration.
