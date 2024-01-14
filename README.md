@@ -21,4 +21,4 @@ Generally a simple zombie infection system.
 - Desinfection's duration.
 - Zombificarion's duration is a random number generated from configurable maximum and minimum values.
 ## Note
-Zombification effect gained from `/effect` command will not process properly, it can only work on zombie-like entities infection.
+Zombification effect gained from `/effect` command may not process properly, it can only work on zombie-like entities infection.
