@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-    @Redirect(method = "curePotionEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/effect/MobEffectInstance;isCurativeItem(Lnet/minecraft/world/item/ItemStack;)Z"))
+    @Redirect(method = "curePotionEffects", remap = false, at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraft/world/effect/MobEffectInstance;isCurativeItem(Lnet/minecraft/world/item/ItemStack;)Z"))
     private boolean zombiesyndrome$onCheckCurative(@NotNull MobEffectInstance instance, ItemStack itemStack) {
         return instance.isCurativeItem(itemStack) && !MainConfig.UNREMOVEABLE_EFFECTS.get().contains(instance.getEffect());
     }
