@@ -3,6 +3,7 @@ package cn.teampancake.zombiesyndrome.config;
 import cn.teampancake.zombiesyndrome.ZombieSyndrome;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -11,7 +12,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -42,7 +42,7 @@ public class MainConfig {
     /**
      * {@link List#contains(Object)} is expensive for iteration, so we transform it to {@link java.util.HashSet} instead
      **/
-    public static final Supplier<Set<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> ForgeRegistries.POTIONS.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
-    public static final Supplier<Set<EntityType<?>>> INFECTION_SOURCES = Suppliers.memoize(() -> INFECTION_SOURCES_LIST.get().stream().map(string -> ForgeRegistries.ENTITIES.getValue(new ResourceLocation(string))).collect(Collectors.toSet()));
-    public static final Supplier<Set<ResourceLocation>> INFECTABLE_ENTITIES = Suppliers.memoize(() -> INFECTABLE_ENTITIES_LIST.get().stream().map(ResourceLocation::new).collect(Collectors.toSet()));
+    public static final Supplier<ObjectOpenHashSet<MobEffect>> UNREMOVEABLE_EFFECTS = Suppliers.memoize(() -> UNREMOVEABLE_EFFECTS_LIST.get().stream().map(string -> ForgeRegistries.POTIONS.getValue(new ResourceLocation(string))).collect(Collectors.toCollection(ObjectOpenHashSet::new)));
+    public static final Supplier<ObjectOpenHashSet<EntityType<?>>> INFECTION_SOURCES = Suppliers.memoize(() -> INFECTION_SOURCES_LIST.get().stream().map(string -> ForgeRegistries.ENTITIES.getValue(new ResourceLocation(string))).collect(Collectors.toCollection(ObjectOpenHashSet::new)));
+    public static final Supplier<ObjectOpenHashSet<ResourceLocation>> INFECTABLE_ENTITIES = Suppliers.memoize(() -> INFECTABLE_ENTITIES_LIST.get().stream().map(ResourceLocation::new).collect(Collectors.toCollection(ObjectOpenHashSet::new)));
 }
