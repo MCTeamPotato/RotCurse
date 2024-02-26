@@ -23,7 +23,7 @@ import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-
+import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,7 +33,7 @@ import java.util.UUID;
 public class ForgeBusEventSubscriber {
     private static final EquipmentSlot[] EQUIPMENT_SLOTS = EquipmentSlot.values();
 
-    private static Zombie customZombie(LivingEntity entity, ServerLevel serverLevel) {
+    private static @NotNull Zombie customZombie(@NotNull LivingEntity entity, ServerLevel serverLevel) {
         Zombie zombie = new Zombie(serverLevel);
         zombie.setPos(entity.getX(), entity.getY(), entity.getZ());
         zombie.setCanPickUpLoot(MainConfig.PICK_UP_LOOT.get());
@@ -74,8 +74,8 @@ public class ForgeBusEventSubscriber {
         LivingEntity entity = event.getEntity();
         if (entity.level.isClientSide || entity.hasEffect(ZSEffects.DESINFECTION.get())) return;
         Entity source = event.getSource().getDirectEntity();
-        if (entity instanceof LivingEntity && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
-            entity.addEffect(new ZombificationInstance(source));
+        if (MainConfig.INFECTABLE_ENTITIES.get().contains(entity.getType()) && (source instanceof Zombie || (source != null && MainConfig.INFECTION_SOURCES.get().contains(source.getType()))) && !entity.hasEffect(ZSEffects.ZOMBIFICATION.get())) {
+            entity.addEffect(new ZombificationInstance(source.getUUID()));
         }
     }
 
