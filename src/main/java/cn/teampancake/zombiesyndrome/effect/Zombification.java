@@ -2,6 +2,7 @@ package cn.teampancake.zombiesyndrome.effect;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class Zombification extends MobEffect {
     public Zombification() {
@@ -30,8 +32,8 @@ public class Zombification extends MobEffect {
     }
 
     public static final class ZombificationDamageSource extends DamageSource {
-        private final @Nullable Entity source;
-        public ZombificationDamageSource(@Nullable Entity source) {
+        private final @Nullable UUID source;
+        public ZombificationDamageSource(@Nullable UUID source) {
             super("zombification");
             this.source = source;
         }
@@ -48,15 +50,19 @@ public class Zombification extends MobEffect {
             return true;
         }
 
-        public @Nullable Entity getEntity() {
+        public @Nullable UUID getEntityUUID() {
             return this.source;
         }
 
         @Contract("_ -> new")
         public @NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity dead) {
-            Entity source = this.getEntity();
-            if (source == null) return new TranslatableComponent("death.attack.zombification", dead.getDisplayName());
-            return new TranslatableComponent("death.attack.zombification.has_source", dead.getDisplayName(), source.getDisplayName());
+            Component message = new TranslatableComponent("death.attack.zombification", dead.getDisplayName());
+            if (!(dead.level instanceof ServerLevel)) return message;
+            UUID source = this.getEntityUUID();
+            if (source == null) return message;
+            Entity entity = ((ServerLevel)dead.level).getEntity(source);
+            if (entity == null) return message;
+            return new TranslatableComponent("death.attack.zombification.has_source", dead.getDisplayName(), entity.getDisplayName());
         }
     }
 }
